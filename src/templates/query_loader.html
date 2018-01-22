@@ -1,0 +1,10 @@
+{% from 'form_select.html' import render_select %}
+
+<fieldset>
+    {{ render_select('select_script', 'SELECT JOB SCRIPT' , '../Scripts/run_QIS_Unloader.ksh', '../Scripts/run_TestDsj.ksh') }} <br /><br />
+    {{ render_select('select_job', 'SELECT JOBNAME' , 'JBCOR52000', 'JBCOR52001', 'JBCOR55000') }}  <br /><br />
+</fieldset>
+
+    <label for="ds_date"> QUERY DATE  </label> <br/>
+    <input class="form-control" type="date" name="ds_date">
+    <br/><br/>

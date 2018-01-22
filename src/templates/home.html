@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block content_title %}
+<div class="container">
+    <br \>
+    <div class="media">
+        <a class="pull-left" href="#">
+            <img src="{{ url_for('static', filename='images/dsql.png') }}" class="img-rounded" height=80px"
+                 alt="Media Object">
+        </a>
+        <div class="media-body">
+            <h3 class="media-heading">DS Query Loader</h3>
+            <p> Current Date & Time : &nbsp <strong> {{ moment(current_time).format('LLL') }} </strong></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_content %}
+<div>
+    <ul id="dsql" class="nav nav-pills nav-justified">
+        <li class="active"><a href="#Dsql" data-toggle="tab">Query Loader</a></li>
+        <li><a href="#Configure" data-toggle="tab">Configure</a></li>
+        <li><a href="#History" data-toggle="tab">Query History & Data</a></li>
+        <li><a href="#Logs" data-toggle="tab">Logs</a></li>
+    </ul>
+</div>
+
+<hr/>
+
+<div id="dsql-content" class="tab-content">
+    <div class="tab-pane fade in active" id="Dsql">
+        <form action="/dataload" method="post">
+            <div class="form-group">
+                <div class="input-group">
+                    {% include 'query_loader.html' %}
+                    <br/>
+                    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#processing-modal">
+                        <i class="glyphicon glyphicon-play"></i> Load Data
+                    </button>
+                </div>
+            </div>
+            <!-- Static Modal -->
+            <div class="modal modal-static fade" id="processing-modal" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="text-center">
+                                <h4>Loading data ...
+                                    <a href="/dataload">
+                                        <button type="button" class="close" style="float: none;" data-dismiss="modal"
+                                                aria-hidden="true">
+                                        </button>
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        {% if show_data == 'True' %}
+        <form action="/download" method="get">
+            <div class="form-group">
+                <h3>Data Stage Query Loader Output</h3>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>USAA_PARTY_TD_ID</th>
+                        <th>USAA_PD_ID_TYPE_CD</th>
+                        <th>S_ARRANGEMENT_ID</th>
+                        <th>ORIG_EFFECTIVE_DT</th>
+                        <th>P_ARRANGEMENT_TYPE_CD</th>
+                        <th>LC_STATUS_CD</th>
+                        <th>LC_STATUS_STR_DT</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for element in data %}
+                    <tr>
+                        {% for key, value in element.items() %}
+                        <td> {{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <a href="/download">
+                    <button class="btn btn-primary btn-md">
+                       Download CSV
+                    </button>
+                </a>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+    <div class="tab-pane fade" id="Configure">
+        <form action="/save_query" method="post">
+            <div class="form-group">
+                <label for="data_output">SQL QUERY STATEMENT</label>
+                <p> To configure the SQL Query to execute, type the SQL Query Statement Below: </p>
+                <textarea class="form-control" rows="10" id="data_output"
+                          placeholder="SELECT USAA_PARTY_TD_ID, USAA_PARTY_ID_TYPE_CD FROM BCCUST.BC_CUSTOMER_SEARCH_EMAIL FETCH FIRST 100 ROWS ONLY WITH UR;"></textarea>
+                <br/>
+                <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#save_query">
+                    Save
+                </button>
+
+                <!-- Static Modal -->
+                <div class="modal modal-static fade" id="save_query" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="text-center">
+                                    <h4>Saving SQL Query ...
+                                        <a href="/dataload">
+                                            <button type="button" class="close" style="float: none;"
+                                                    data-dismiss="modal"
+                                                    aria-hidden="true">
+                                            </button>
+                                        </a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div class="tab-pane fade" id="History">
+        <p> You are viewing history </p>
+    </div>
+    <div class="tab-pane fade" id="Logs">
+        <p> System Logs </p>
+        <img src="{{ url_for('static', filename='images/logs.png')}}" style="width:95%">
+    </div>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div style="background: #FF9966" class="well well-md">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search Topics">
+        <span class="input-group-btn">
+            <button type="submit" class="btn btn-default">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </span>
+    </div>
+    <div class="container">
+        <br/>
+        <h4 class="nav nav-list"> &nbsp; &nbsp;[ OTHER TASKS ] </h4>
+        <ul style="list-style-type:circle">
+            <li><a href="#"> Configure Env Variables </a></li>
+            <li><a href="#"> Edit/Test Job Script </a></li>
+            <li><a href="#"> Setup Scheduler </a></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

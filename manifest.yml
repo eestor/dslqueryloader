@@ -1,0 +1,9 @@
+applications:
+- path: .
+  memory: 256M
+  instances: 1
+  domain: mybluemix.net
+  name: dsqueryloader
+  host: dsqueryloader
+  disk_quota: 1024M
+  buildpack: python_buildpack

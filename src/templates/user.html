@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+
+{% block page_content %}
+<div class="container">
+    <div class="page-header">
+        <div class="media">
+            <a class="pull-left" href="#">
+                <img src="{{ current_user.gravatar(size=40) }}" class="img-rounded" height=100px alt="Media Object">
+            </a>
+            <div class="media-body">
+                <h2>{{ user.username }}</h2>
+                {% if user.name or user.location %}
+                <p>
+                    {% if user.name %}{{ user.name }}{% endif %}
+                    {% if user.location %}
+                    From <a href="http://maps.google.com/?q={{ user.location }}"> {{ user.location }} </a>
+                    {% endif %}
+                </p>
+                {% endif %}
+
+                {% if current_user.is_administrator() %}
+                <p><a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+                {% endif %}
+
+                {% if user.about_me %}
+                <p>{{ user.about_me }}</p>
+                {% endif %}
+
+                <p>
+                    Member since {{ moment(user.member_since).format('L') }}.
+                    Last seen {{ moment(user.last_seen).fromNow() }}.
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

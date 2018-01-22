@@ -1,0 +1,10 @@
+{% macro render_select(label_for, label , option1, option2, option3) -%}
+<div class="category-select ">
+    <label for="{{ label_for }}"> {{ label }} </label>
+    <select class="form-control" id="{{ label_for }}">
+        <option>{{ option1 }}</option>
+        <option>{{ option2 }}</option>
+        <option>{{ option3 }}</option>
+    </select>
+</div>
+{%- endmacro %}

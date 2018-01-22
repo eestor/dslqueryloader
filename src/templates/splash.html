@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content_title %}
+<div style="background: #CCFFCC" class="jumbotron">
+    <div class="media">
+        <a class="pull-left" href="#">
+            <img src="{{ url_for('static', filename='images/dsql.png') }}" class="img-rounded" height=150px"
+                 alt="Media Object">
+        </a>
+        <div class="media-body">
+            <h3 class="media-heading">DS Query Loader</h3>
+            <p> Lets you perform SQL queries which loads data instantly ! </p>
+            <a class="btn btn-primary btn-lg" role="button"> Learn More !</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_content %}
+<h3>
+    {% if current_user.is_authenticated %}
+        Good day, {{ current_user.username }} ! <br/>
+        <small> Current Date & Time : &nbsp; <strong> {{ moment(current_time).format('LLL') }} </strong></small>
+    {% else %}
+        Good day ! <br/>
+        <small> To continue using this service, please
+              <strong>
+                 <a class="btn btn-primary btn-md" role="button" href="/login"> Sign-In </a>
+              </strong>
+        </small>
+    {% endif %}
+</h3>
+
+{% endblock %}
+
